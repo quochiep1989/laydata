@@ -1,11 +1,11 @@
 <?php
 
-fopen('php://output', 'w');
-header("Expires: 0");
-header('Content-Type: text/csv; charset=utf-8');
-header('Content-Disposition: attachment; filename=dataESL.csv');
-$output = fopen('php://output', 'w');
-header("Expires: 0");
+//fopen('php://output', 'w');
+//header("Expires: 0");
+//header('Content-Type: text/csv; charset=utf-8');
+//header('Content-Disposition: attachment; filename=dataESL.csv');
+//$output = fopen('php://output', 'w');
+//header("Expires: 0");
 include "simple_html_dom.php";
 //$a = 'http://esl.bowvalleycollege.ca/listen/mp3/rent.html';
 //var_dump(getQuiz($a));
@@ -23,13 +23,13 @@ $data = array();
 $data_esl = array();
 foreach(getUrl($url) as $key=>$i){
     array_push($data,$key);
-    array_push($data,json_encode(positionAns(getQuiz($i),getAns($i))));
+    array_push($data,json_encode(getQuiz($i)));
     array_push($data_esl,$data);
     $data = array();
 
 }
-
-writeCsv($data_esl, $output);
+var_dump($data_esl);
+//writeCsv($data_esl, $output);
 //var_dump($data_esl);
 function getAudio($url) {
     $html = file_get_html($url);
