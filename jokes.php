@@ -2,7 +2,7 @@
 include "simple_html_dom.php";
 //"http://www.manythings.org/jokes/"
 $url = "http://www.manythings.org/jokes/";
-$url_audio = "http://www.manythings.org/jokes/9962.html";
+$url_audio = "http://www.manythings.org/jokes/9965.html";
 var_dump(getAudio($url_audio));
 function getUrl($url){
     $html = file_get_html($url);
@@ -17,10 +17,15 @@ function getUrl($url){
     return $string;
 }
 function getAudio($url){
+    $array = array();
     $file = file_get_html($url);
-    $tmp_tra_loi = $file->find("div[class='content_main']");
-
-   
-    return $tmp_tra_loi;
+    $myDiv = $file->find('div'); // wherever your the div you're ending up with is
+    foreach($myDiv as $e){
+        array_push($array, $e->innertext);
+    }
+    unset($array[0]);
+    $string1 = explode("<br />", $array[1]);
+    return $string1;
+            
 }
 
