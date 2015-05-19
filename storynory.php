@@ -5,8 +5,8 @@ function getUrl($url){
     $html = file_get_html($url);
     $string = array();
     $string1 = array();
-    foreach($html->find('a') as $element) {
-       array_push($string, $element->href);
+    foreach($html->find('img') as $element) {
+       array_push($string, $element->src);
     }
     return $string;
 }
