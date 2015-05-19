@@ -44,3 +44,4 @@ function getAll($url){
     }
     return $data;
 }
+//http://funny-stuff.audio4fun.com/animal-jokes.htm,http://www.thejokeyard.com/funny_short_stories/
