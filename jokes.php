@@ -3,7 +3,8 @@ include "simple_html_dom.php";
 //"http://www.manythings.org/jokes/"
 $url = "http://www.manythings.org/jokes/";
 $url_audio = "http://www.manythings.org/jokes/9965.html";
-var_dump(getAudio($url_audio));
+//var_dump(getAudio($url_audio));
+var_dump(getAll(getUrl($url)));
 function getUrl($url){
     $html = file_get_html($url);
     $string = array();
@@ -25,7 +26,21 @@ function getAudio($url){
     }
     unset($array[0]);
     $string1 = explode("<br />", $array[1]);
-    return $string1;
+    unset($string1[0]);
+    unset($string1[1]);
+    foreach ($string1 as $i){
+        $b = $i."<br/>";
+        $a = $a.$b;
+    }
+    $a=  str_replace("<br clear='all'>","", $a);
+    return $a;
             
 }
-
+function getAll($url){
+    $data = array();
+    foreach ($url as $i){
+        $c = str_replace("html","mp3",$i[0]);
+        array_push($data,array($c,$i[1],getAudio($i[0])));
+    }
+    return $data;
+}
