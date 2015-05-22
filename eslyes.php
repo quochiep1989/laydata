@@ -5,12 +5,10 @@ include "simple_html_dom.php";
 //http://www.eslyes.com/inter/contents.htm
 //-----------------------------------------------for extra
 //$url = "http://www.eslyes.com/extra/contents.htm";
-//$url_page = "http://www.eslyes.com/extra/extra/extras008.htm";
 //-----------------------------------------------for inner
 $url = "http://www.eslyes.com/inter/contents.htm";
-//var_dump(getUrl($url));
-//var_dump(getUrlAudio($url_page));
-//var_dump(getAllPage($url_page));
+//-----------------------------------------------for http://www.eslyes.com/eslread/
+//$url = "http://www.eslyes.com/eslread/";
 $data = array();
 $tmp = array();
 foreach (getUrl($url) as $i){
@@ -19,6 +17,8 @@ foreach (getUrl($url) as $i){
     //$audio = str_replace("../","http://www.eslyes.com/extra/",$page[0]);
     //--for inner
     $audio = str_replace("../","http://www.eslyes.com/inner/",$page[0]);
+    //--for eslread
+    
     $content  = strip_tags(trim($page[1]),'<p>');
     array_push($tmp,array(substr($i[1],2,strlen($i[1])),$audio,$content));
     array_push($data,$tmp);
