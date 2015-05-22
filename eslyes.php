@@ -20,9 +20,11 @@ foreach (getUrl($url) as $i){
     //--for eslread
     
     $content  = strip_tags(trim($page[1]),'<p>');
+    $content = str_replace(".","<br/>",$content);
     array_push($tmp,array(substr($i[1],2,strlen($i[1])),$audio,$content));
     array_push($data,$tmp);
     $tmp = array();
+
 }
 
 writeCsv($data);
