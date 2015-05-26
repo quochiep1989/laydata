@@ -5,8 +5,17 @@ $url = "http://www.eslyes.com/nyc/contents.htm";
 $url_page = "http://www.eslyes.com/nyc/nyc/nycs018.htm";
 
 //var_dump(getUrl($url));
-var_dump(getAllPage($url_page));
-
+$tmp =array();
+$data = array();
+foreach (getUrl($url) as $key=>$i){
+    if($key>600 && $key<=786){
+        $page = getAllPage("http://www.eslyes.com/nyc/".$i[0]);
+        array_push($tmp,array($i[1],$page[0],$page[1]));
+        array_push($data,$tmp);
+        $tmp = array();
+    }
+}
+writeCsv($data);
 function getUrl($url){
     $html = file_get_html($url);
     $string = array();
@@ -36,4 +45,15 @@ function getAllPage($url_page){
     $content = str_replace('<p class="MsoNormal" style="text-indent: .35in; line-height: 150%">','',$content);
     $content = str_replace('</p>','',$content);
     return array($url_audio,trim($content));
+}
+function writeCsv($data){
+    fopen('php://output', 'w');
+    header("Expires: 0");header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename=dataESL.csv');
+    $output = fopen('php://output', 'w');
+    header("Expires: 0");
+    foreach ($data as $i){
+        fputcsv($output,$i[0]);
+    }
+    fclose($output);
 }
