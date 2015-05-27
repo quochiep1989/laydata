@@ -8,12 +8,11 @@ $url_page = "http://www.eslyes.com/nyc/nyc/nycs018.htm";
 $tmp =array();
 $data = array();
 foreach (getUrl($url) as $key=>$i){
-    if($key>600 && $key<=786){
-        $page = getAllPage("http://www.eslyes.com/nyc/".$i[0]);
-        array_push($tmp,array($i[1],$page[0],$page[1]));
-        array_push($data,$tmp);
-        $tmp = array();
-    }
+    $page = getAllPage("http://www.eslyes.com/nyc/".$i[0]);
+    array_push($tmp,array($i[1],$page[0],$page[1]));
+    array_push($data,$tmp);
+    $tmp = array();
+
 }
 writeCsv($data);
 function getUrl($url){
@@ -22,7 +21,13 @@ function getUrl($url){
     $string1 = array();
     foreach($html->find('a') as $key=>$element) {
        if(($key>13) && ($key!=15)&&($key!=16)){
-        array_push($string, array($element->href,$element->innertext));
+            if($key<100){
+                $title = substr($element->innertext,3);
+            }else{
+                $title = substr($element->innertext,4);
+
+            }
+        array_push($string, array($element->href,$title));
        } 
        
     }
