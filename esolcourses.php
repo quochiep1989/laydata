@@ -4,11 +4,14 @@ include "simple_html_dom.php";
 $page = "http://www.englishspeak.com/english-lessons.cfm";
 
 $a = getUrl($page);
-
+$data = array();
+$tmp = array();
 foreach ($a as $i){
-    //var_dump($i);
-    var_dump(getContent($i[0]));
+    array_push($tmp,array($i[1],getContent($i[0])));
+    array_push($data,$tmp);
+    $tmp = array();
 }
+writeCsv($data);
 function getUrl($url){
     $html = file_get_html($url);
     $string = array();
@@ -28,6 +31,7 @@ function getContent($url_page){
     foreach($html->find('table[class="blacktext"] tbody table tr') as $element) {
         $string1 = "";
         $string2 = "";
+        $string3 = "";
         //array_push($string, array($element->innertext));
         $html = str_get_html($element->innertext);
         $content1 = $html->find('a');
@@ -43,13 +47,26 @@ function getContent($url_page){
             $string2 = $i->onclick;
             $string2= str_replace("javascript:playMp3('","", $string2);
             $string2= str_replace("')","", $string2);
+            $string3 = $string2;
+            $string3= str_replace("individual","individualSlow", $string3);
         }
         if(!empty($string1)){
-            array_push($tmp,array(strip_tags($string1,'span'),$string2)); 
+            array_push($tmp,array(strip_tags($string1,'span'),$string3,$string2)); 
             array_push($data, $tmp);
             $tmp = array();
         }
     }
-    return $data;
+    return json_encode($data);
    
+}
+function writeCsv($data){
+    fopen('php://output', 'w');
+    header("Expires: 0");header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename=dataESL.csv');
+    $output = fopen('php://output', 'w');
+    header("Expires: 0");
+    foreach ($data as $i){
+        fputcsv($output,$i[0]);
+    }
+    fclose($output);
 }
