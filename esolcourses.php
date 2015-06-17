@@ -51,7 +51,10 @@ function getContent($url_page){
             $string3= str_replace("individual","individualSlow", $string3);
         }
         if(!empty($string1)){
-            array_push($tmp,array(strip_tags($string1,'span'),$string3,$string2)); 
+            //array_push($tmp,array(strip_tags($string1,'span'),$string3,$string2));
+            $tmp['conv'] = strip_tags($string1,'span');
+            $tmp['slow'] = $string3;
+            $tmp['nomal'] = $string2;
             array_push($data, $tmp);
             $tmp = array();
         }
