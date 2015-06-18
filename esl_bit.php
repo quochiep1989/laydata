@@ -11,7 +11,10 @@ function getUrl($url,$key_name){
     $string = array();
     $string1 = array();
     foreach($html->find('table a') as $key=>$element) {    
-        array_push($string, array($key_name,"http://www.englishspeak.com/".$element->href,$element->innertext));
+        array_push($string, array($key_name,"http://esl-bits.net/idioms/".$element->href,$element->innertext));
     }
     return $string;
+}
+function getContent($url){
+    
 }
