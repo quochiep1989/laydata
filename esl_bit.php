@@ -4,12 +4,15 @@ include "simple_html_dom.php";
 //$page = "http://esl-bits.net/idioms/id4.htm";
 //var_dump(getContent($page));
 $content = array();
+$data = array();
 for($i=65;$i<=90;$i++){
     $url = "http://esl-bits.net/idioms/idTit".chr($i).".htm";
-    array_push($content, getUrl($url,chr($i)));
-    
+    $tmp = getUrl($url,chr($i));
+    foreach ($tmp as $line){
+        array_push($content,array($line[0],$line[2],getContent($line[1])));
+    } 
 }
-var_dump($content);
+writeCsv($content);
 function getUrl($url, $key_name) {
     $html = file_get_html($url);
     $string = array();
@@ -46,4 +49,15 @@ function getContent($url) {
     }
     unset($array[0]);
     return json_encode($array);
+}
+function writeCsv($data){
+    fopen('php://output', 'w');
+    header("Expires: 0");header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename=dataESL.csv');
+    $output = fopen('php://output', 'w');
+    header("Expires: 0");
+    foreach ($data as $i){
+        fputcsv($output,$i);
+    }
+    fclose($output);
 }
